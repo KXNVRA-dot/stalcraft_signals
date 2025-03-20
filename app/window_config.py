@@ -13,6 +13,8 @@ import webbrowser
 import win32api
 import py_win_keyboard_layout
 from autorun import run, keys
+import random
+import string
 
 
 class Interface(QMainWindow, Ui_main_window):
@@ -39,10 +41,18 @@ class Interface(QMainWindow, Ui_main_window):
         self.conf.init_config()
         self.close()
 
+    def generate_random_title(self, length: int = 12) -> str:
+        """Generate a random alphanumeric title"""
+        chars = string.ascii_letters + string.digits
+        return ''.join(random.choice(chars) for _ in range(length))
+
     def configure(self):
         # Window
         self.setWindowIcon(QIcon("./res/icon.ico"))
         self.setWindowFlags(Qt.WindowType.WindowStaysOnTopHint)
+        # Set a random window title
+        random_title = self.generate_random_title()
+        self.setWindowTitle(random_title)
         self.resize(self.conf.width, self.conf.height)
         self.pb.hide()
         # Menu
